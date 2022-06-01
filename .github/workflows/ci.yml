@@ -16,14 +16,14 @@
 
 name: ci
 
-on:
-  pull_request:
-    branches:
-      - master
-      - release-*
-  push:
-    tags:
-      - "release-*"
+on: push
+#  pull_request:
+#    branches:
+#      - master
+#      - release-*
+#  push:
+#    tags:
+#      - "release-*"
 
 jobs:
   pisa-controller:
