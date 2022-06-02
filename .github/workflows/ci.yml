@@ -41,6 +41,7 @@ jobs:
         id: vars
         shell: bash
         run: |
+          echo $GITHUB_REF
           echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
           if [[ $GITHUB_REF == refs/tags/* ]]; then
              echo "##[set-output name=tags;]$(echo ${GITHUB_REF#refs/tags/})"  
