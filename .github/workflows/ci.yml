@@ -37,11 +37,13 @@ jobs:
           go-version: '1.18.1'
       - name: "unit test"
         run: "cd pisa-controller && go test ./..."
+      - name: echo env
+        run:
+          echo "$GITHUB_REF"
       - name: Declare some variables
         id: vars
         shell: bash
         run: |
-          echo ${{ GITHUB_REF }}
           echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
           if [[ $GITHUB_REF == refs/tags/* ]]; then
              echo "##[set-output name=tags;]$(echo ${GITHUB_REF#refs/tags/})"  
