@@ -1,0 +1,32 @@
+
+name: test
+
+on: push
+jobs:
+  pisa-controller:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "checkout codes"
+        uses: actions/checkout@v2
+      - name: Declare some variables
+        id: vars
+        shell: bash
+        run: |
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+             echo "##[set-output name=tags;]$(echo ${GITHUB_REF#refs/tags/})"  
+             echo "##[set-output name=imagetag;]$(echo ${GITHUB_REF#refs/tags/})-$(git rev-parse --short HEAD)"  
+          else
+             echo "##[set-output name=tags;]$(echo '')"
+             echo "##[set-output name=imagetag;]$(echo '')"
+          fi
+          if [[ $GITHUB_REF == refs/heads/* ]]; then
+             echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"  
+             echo "##[set-output name=imagetag;]$(echo ${GITHUB_REF#refs/heads/})-$(git rev-parse --short HEAD)"  
+          else
+             echo "##[set-output name=branch;]$(echo '')"
+             echo "##[set-output name=imagetag;]$(echo '')"
+          fi
+      - name: testvars
+        run: |
+          echo ${{ steps.vars.outputs.imagetag }}
